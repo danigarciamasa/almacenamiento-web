@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tipos de Almacenamiento de Datos</title>
+  <!-- Tailwind CSS vía CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-blue-600 text-white p-6">
+    <h1 class="text-2xl font-bold text-center">Tipos de Almacenamiento de Datos</h1>
+    <p class="text-center mt-2">Web educativa interactiva</p>
+  </header>
+
+  <main class="max-w-5xl mx-auto p-6 space-y-12">
+
+    <!-- Sección: Filtro -->
+    <section id="filtro">
+      <h2 class="text-xl font-semibold mb-4">🔍 Filtrar tipos de almacenamiento</h2>
+      <input id="filtroInput" type="text" placeholder="Escribe para filtrar..."
+        class="w-full p-2 border rounded" />
+    </section>
+
+    <!-- Sección: Tarjetas -->
+    <section id="tarjetas">
+      <h2 class="text-xl font-semibold mb-4">📦 Tipos principales</h2>
+      <div id="tarjetasContainer" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Ejemplo de tarjeta -->
+        <div class="card bg-white shadow-md rounded p-4" data-name="Primario">
+          <h3 class="font-bold text-lg">Almacenamiento Primario</h3>
+          <p class="text-sm mt-2">Memoria volátil (RAM) utilizada por el procesador.</p>
+        </div>
+        <div class="card bg-white shadow-md rounded p-4" data-name="Secundario">
+          <h3 class="font-bold text-lg">Almacenamiento Secundario</h3>
+          <p class="text-sm mt-2">Discos duros, SSDs; almacena datos de forma persistente.</p>
+        </div>
+        <div class="card bg-white shadow-md rounded p-4" data-name="Nube">
+          <h3 class="font-bold text-lg">Almacenamiento en la Nube</h3>
+          <p class="text-sm mt-2">Datos guardados en servidores remotos accesibles por Internet.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección: Tabla comparativa -->
+    <section id="tabla">
+      <h2 class="text-xl font-semibold mb-4">📊 Comparativa</h2>
+      <div class="overflow-x-auto">
+        <table class="table-auto border-collapse border w-full text-sm">
+          <thead class="bg-gray-200">
+            <tr>
+              <th class="border p-2">Tipo</th>
+              <th class="border p-2">Velocidad</th>
+              <th class="border p-2">Costo</th>
+              <th class="border p-2">Ejemplos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border p-2">Primario</td>
+              <td class="border p-2">Muy alta</td>
+              <td class="border p-2">Alto</td>
+              <td class="border p-2">RAM</td>
+            </tr>
+            <tr>
+              <td class="border p-2">Secundario</td>
+              <td class="border p-2">Media</td>
+              <td class="border p-2">Medio</td>
+              <td class="border p-2">HDD, SSD</td>
+            </tr>
+            <tr>
+              <td class="border p-2">Nube</td>
+              <td class="border p-2">Variable</td>
+              <td class="border p-2">Suscripción</td>
+              <td class="border p-2">Google Drive, Dropbox</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Sección: Glosario -->
+    <section id="glosario">
+      <h2 class="text-xl font-semibold mb-4">📖 Glosario</h2>
+      <ul class="list-disc pl-6 space-y-2">
+        <li><strong>RAM:</strong> Memoria de acceso aleatorio, volátil.</li>
+        <li><strong>SSD:</strong> Unidad de estado sólido, rápida y sin partes móviles.</li>
+        <li><strong>Latencia:</strong> Tiempo de respuesta de acceso a datos.</li>
+      </ul>
+    </section>
+
+    <!-- Sección: Quiz -->
+    <section id="quiz">
+      <h2 class="text-xl font-semibold mb-4">📝 Quiz rápido</h2>
+      <p class="mb-2">¿Cuál es un ejemplo de almacenamiento secundario?</p>
+      <button class="quiz-btn bg-blue-500 text-white px-4 py-2 rounded mr-2">RAM</button>
+      <button class="quiz-btn bg-blue-500 text-white px-4 py-2 rounded mr-2">SSD</button>
+      <button class="quiz-btn bg-blue-500 text-white px-4 py-2 rounded">Dropbox</button>
+      <p id="quizResultado" class="mt-4 font-semibold"></p>
+    </section>
+
+  </main>
+
+  <footer class="bg-gray-800 text-white text-center p-4 mt-12">
+    <p>© 2025 Web educativa de almacenamiento de datos</p>
+  </footer>
+
+  <!-- JS simple -->
+  <script>
+    // Filtro de tarjetas
+    const filtroInput = document.getElementById("filtroInput");
+    const tarjetas = document.querySelectorAll(".card");
+    filtroInput.addEventListener("input", () => {
+      const valor = filtroInput.value.toLowerCase();
+      tarjetas.forEach(card => {
+        const nombre = card.dataset.name.toLowerCase();
+        card.style.display = nombre.includes(valor) ? "block" : "none";
+      });
+    });
+
+    // Quiz
+    const botonesQuiz = document.querySelectorAll(".quiz-btn");
+    const resultado = document.getElementById("quizResultado");
+    botonesQuiz.forEach(btn => {
+      btn.addEventListener("click", () => {
+        if (btn.textContent === "SSD") {
+          resultado.textContent = "✅ Correcto: SSD es almacenamiento secundario.";
+          resultado.className = "text-green-600 font-bold mt-4";
+        } else {
+          resultado.textContent = "❌ Incorrecto. Intenta de nuevo.";
+          resultado.className = "text-red-600 font-bold mt-4";
+        }
+      });
+    });
+  </script>
+</body>
+</html>
