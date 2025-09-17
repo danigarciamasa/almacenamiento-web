@@ -15,7 +15,7 @@
     <p class="text-center mt-2">Web educativa interactiva</p>
   </header>
 
-  <main class="max-w-5xl mx-auto p-6 space-y-12">
+  <main class="max-w-6xl mx-auto p-6 space-y-12">
 
     <!-- Sección: Filtro -->
     <section id="filtro">
@@ -27,56 +27,27 @@
     <!-- Sección: Tarjetas -->
     <section id="tarjetas">
       <h2 class="text-xl font-semibold mb-4">📦 Tipos principales</h2>
-      <div id="tarjetasContainer" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Ejemplo de tarjeta -->
-        <div class="card bg-white shadow-md rounded p-4" data-name="Primario">
-          <h3 class="font-bold text-lg">Almacenamiento Primario</h3>
-          <p class="text-sm mt-2">Memoria volátil (RAM) utilizada por el procesador.</p>
-        </div>
-        <div class="card bg-white shadow-md rounded p-4" data-name="Secundario">
-          <h3 class="font-bold text-lg">Almacenamiento Secundario</h3>
-          <p class="text-sm mt-2">Discos duros, SSDs; almacena datos de forma persistente.</p>
-        </div>
-        <div class="card bg-white shadow-md rounded p-4" data-name="Nube">
-          <h3 class="font-bold text-lg">Almacenamiento en la Nube</h3>
-          <p class="text-sm mt-2">Datos guardados en servidores remotos accesibles por Internet.</p>
-        </div>
-      </div>
+      <div id="tarjetasContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </section>
 
     <!-- Sección: Tabla comparativa -->
     <section id="tabla">
       <h2 class="text-xl font-semibold mb-4">📊 Comparativa</h2>
       <div class="overflow-x-auto">
-        <table class="table-auto border-collapse border w-full text-sm">
+        <table class="table-auto border-collapse border w-full text-sm" id="tablaComparativa">
           <thead class="bg-gray-200">
             <tr>
               <th class="border p-2">Tipo</th>
-              <th class="border p-2">Velocidad</th>
-              <th class="border p-2">Costo</th>
+              <th class="border p-2">Uso</th>
+              <th class="border p-2">Latencia</th>
+              <th class="border p-2">Rendimiento</th>
+              <th class="border p-2">Durabilidad</th>
+              <th class="border p-2">Escalabilidad</th>
+              <th class="border p-2">Coste</th>
               <th class="border p-2">Ejemplos</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td class="border p-2">Primario</td>
-              <td class="border p-2">Muy alta</td>
-              <td class="border p-2">Alto</td>
-              <td class="border p-2">RAM</td>
-            </tr>
-            <tr>
-              <td class="border p-2">Secundario</td>
-              <td class="border p-2">Media</td>
-              <td class="border p-2">Medio</td>
-              <td class="border p-2">HDD, SSD</td>
-            </tr>
-            <tr>
-              <td class="border p-2">Nube</td>
-              <td class="border p-2">Variable</td>
-              <td class="border p-2">Suscripción</td>
-              <td class="border p-2">Google Drive, Dropbox</td>
-            </tr>
-          </tbody>
+          <tbody id="tablaBody"></tbody>
         </table>
       </div>
     </section>
@@ -84,21 +55,13 @@
     <!-- Sección: Glosario -->
     <section id="glosario">
       <h2 class="text-xl font-semibold mb-4">📖 Glosario</h2>
-      <ul class="list-disc pl-6 space-y-2">
-        <li><strong>RAM:</strong> Memoria de acceso aleatorio, volátil.</li>
-        <li><strong>SSD:</strong> Unidad de estado sólido, rápida y sin partes móviles.</li>
-        <li><strong>Latencia:</strong> Tiempo de respuesta de acceso a datos.</li>
-      </ul>
+      <ul id="glosarioLista" class="list-disc pl-6 space-y-2"></ul>
     </section>
 
     <!-- Sección: Quiz -->
     <section id="quiz">
       <h2 class="text-xl font-semibold mb-4">📝 Quiz rápido</h2>
-      <p class="mb-2">¿Cuál es un ejemplo de almacenamiento secundario?</p>
-      <button class="quiz-btn bg-blue-500 text-white px-4 py-2 rounded mr-2">RAM</button>
-      <button class="quiz-btn bg-blue-500 text-white px-4 py-2 rounded mr-2">SSD</button>
-      <button class="quiz-btn bg-blue-500 text-white px-4 py-2 rounded">Dropbox</button>
-      <p id="quizResultado" class="mt-4 font-semibold"></p>
+      <div id="quizContainer" class="space-y-6"></div>
     </section>
 
   </main>
@@ -107,33 +70,119 @@
     <p>© 2025 Web educativa de almacenamiento de datos</p>
   </footer>
 
-  <!-- JS simple -->
+  <!-- JS con datos y render organizado -->
   <script>
-    // Filtro de tarjetas
-    const filtroInput = document.getElementById("filtroInput");
-    const tarjetas = document.querySelectorAll(".card");
-    filtroInput.addEventListener("input", () => {
-      const valor = filtroInput.value.toLowerCase();
-      tarjetas.forEach(card => {
-        const nombre = card.dataset.name.toLowerCase();
-        card.style.display = nombre.includes(valor) ? "block" : "none";
-      });
-    });
+    // === Datos de ejemplo ===
+    const items = [
+      { tipo: "RAM", uso: "Memoria principal volátil para procesos activos", ejemplos: "DDR4, DDR5", latencia: "Nanosegundos", rendimiento: "Muy alto", durabilidad: "Baja (volátil, se borra al apagar)", escalabilidad: "Limitada al hardware del sistema", coste: "Alto", desc: "Proporciona acceso ultrarrápido a los datos, pero no es persistente." },
+      { tipo: "SSD NVMe", uso: "Almacenamiento secundario de alto rendimiento", ejemplos: "Samsung 980 Pro, WD Black", latencia: "Microsegundos", rendimiento: "Muy alto", durabilidad: "Media-alta", escalabilidad: "Buena", coste: "Medio-alto", desc: "Disco sólido conectado por PCIe con gran velocidad de lectura/escritura." },
+      { tipo: "HDD", uso: "Almacenamiento masivo económico", ejemplos: "Western Digital Blue, Seagate Barracuda", latencia: "Milisegundos", rendimiento: "Bajo", durabilidad: "Media", escalabilidad: "Alta", coste: "Bajo", desc: "Disco duro magnético tradicional, barato y de gran capacidad." },
+      { tipo: "NAS", uso: "Almacenamiento compartido en red local", ejemplos: "Synology, QNAP", latencia: "Milisegundos (dependiente de red)", rendimiento: "Medio", durabilidad: "Alta (RAID, redundancia)", escalabilidad: "Media", coste: "Medio", desc: "Servidor de almacenamiento accesible por varios usuarios en red." },
+      { tipo: "SAN", uso: "Red de almacenamiento de alto rendimiento para empresas", ejemplos: "Fibre Channel, iSCSI", latencia: "Baja", rendimiento: "Alto", durabilidad: "Alta", escalabilidad: "Alta", coste: "Muy alto", desc: "Infraestructura empresarial dedicada para almacenamiento a gran escala." },
+      { tipo: "Objeto en nube", uso: "Almacenamiento de objetos en la nube", ejemplos: "Amazon S3, Azure Blob", latencia: "Decenas de milisegundos", rendimiento: "Variable", durabilidad: "Muy alta (99.999999999%)", escalabilidad: "Prácticamente infinita", coste: "Pago por uso", desc: "Almacenamiento flexible de archivos no estructurados en la nube." },
+      { tipo: "Bloque en nube", uso: "Almacenamiento en bloques para máquinas virtuales", ejemplos: "AWS EBS, Google Persistent Disk", latencia: "Baja a media", rendimiento: "Alto", durabilidad: "Alta", escalabilidad: "Buena", coste: "Medio", desc: "Simula discos duros virtuales accesibles por instancias en la nube." },
+      { tipo: "BD relacional", uso: "Gestión estructurada de datos con SQL", ejemplos: "MySQL, PostgreSQL, Oracle", latencia: "Baja a media", rendimiento: "Alto", durabilidad: "Alta (transacciones ACID)", escalabilidad: "Vertical principalmente", coste: "Variable (open source o licencias caras)", desc: "Base de datos estructurada con soporte a consultas complejas y transacciones." },
+      { tipo: "NoSQL clave-valor", uso: "Almacenamiento flexible y rápido para datos no estructurados", ejemplos: "Redis, DynamoDB", latencia: "Muy baja", rendimiento: "Muy alto", durabilidad: "Media-alta", escalabilidad: "Horizontal", coste: "Pago por uso o software libre", desc: "Optimizado para consultas rápidas sobre grandes volúmenes de datos distribuidos." },
+      { tipo: "Cinta/Archivado", uso: "Almacenamiento a largo plazo y bajo costo", ejemplos: "LTO Ultrium", latencia: "Alta (minutos para acceso)", rendimiento: "Bajo en acceso, bueno en escritura secuencial", durabilidad: "Muy alta (décadas)", escalabilidad: "Alta", coste: "Muy bajo", desc: "Usado para copias de seguridad y archivo histórico de datos." }
+    ];
 
-    // Quiz
-    const botonesQuiz = document.querySelectorAll(".quiz-btn");
-    const resultado = document.getElementById("quizResultado");
-    botonesQuiz.forEach(btn => {
-      btn.addEventListener("click", () => {
-        if (btn.textContent === "SSD") {
-          resultado.textContent = "✅ Correcto: SSD es almacenamiento secundario.";
-          resultado.className = "text-green-600 font-bold mt-4";
-        } else {
-          resultado.textContent = "❌ Incorrecto. Intenta de nuevo.";
-          resultado.className = "text-red-600 font-bold mt-4";
+    const glosario = [
+      { termino: "Latencia", definicion: "Tiempo que tarda un sistema en responder a una solicitud de acceso a datos." },
+      { termino: "IOPS", definicion: "Operaciones de entrada/salida por segundo; métrica de rendimiento de almacenamiento." },
+      { termino: "ACID", definicion: "Propiedades de transacciones en bases de datos: Atomicidad, Consistencia, Aislamiento, Durabilidad." },
+      { termino: "RAID", definicion: "Conjunto de técnicas para combinar varios discos y mejorar redundancia o rendimiento." },
+      { termino: "CAP", definicion: "Teorema que establece que una base de datos distribuida no puede garantizar consistencia, disponibilidad y tolerancia a particiones al mismo tiempo." },
+      { termino: "Escalabilidad", definicion: "Capacidad de un sistema para aumentar su rendimiento al añadir recursos." },
+      { termino: "Durabilidad", definicion: "Capacidad de mantener datos a lo largo del tiempo sin pérdida o corrupción." }
+    ];
+
+    const preguntas = [
+      { enunciado: "¿Cuál de los siguientes es un ejemplo de almacenamiento en bloque en la nube?", opciones: ["Amazon S3", "AWS EBS", "Dropbox"], correcta: "AWS EBS" },
+      { enunciado: "¿Qué tipo de almacenamiento se caracteriza por ser muy barato y duradero a largo plazo?", opciones: ["SSD NVMe", "Cinta/Archivado", "RAM"], correcta: "Cinta/Archivado" },
+      { enunciado: "¿Qué propiedad de bases de datos asegura Atomicidad, Consistencia, Aislamiento y Durabilidad?", opciones: ["CAP", "ACID", "RAID"], correcta: "ACID" }
+    ];
+
+    // === Funciones de renderizado ===
+    function renderTarjetas(lista) {
+      const tarjetasContainer = document.getElementById("tarjetasContainer");
+      tarjetasContainer.innerHTML = "";
+      lista.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "card bg-white shadow-md rounded p-4";
+        card.innerHTML = `<h3 class="font-bold text-lg">${item.tipo}</h3><p class="text-sm mt-2">${item.desc}</p>`;
+        tarjetasContainer.appendChild(card);
+      });
+    }
+
+    function renderTabla() {
+      const tablaBody = document.getElementById("tablaBody");
+      tablaBody.innerHTML = "";
+      items.forEach(item => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td class="border p-2">${item.tipo}</td>
+          <td class="border p-2">${item.uso}</td>
+          <td class="border p-2">${item.latencia}</td>
+          <td class="border p-2">${item.rendimiento}</td>
+          <td class="border p-2">${item.durabilidad}</td>
+          <td class="border p-2">${item.escalabilidad}</td>
+          <td class="border p-2">${item.coste}</td>
+          <td class="border p-2">${item.ejemplos}</td>
+        `;
+        tablaBody.appendChild(tr);
+      });
+    }
+
+    function renderGlosario() {
+      const glosarioLista = document.getElementById("glosarioLista");
+      glosarioLista.innerHTML = "";
+      glosario.forEach(g => {
+        const li = document.createElement("li");
+        li.innerHTML = `<strong>${g.termino}:</strong> ${g.definicion}`;
+        glosarioLista.appendChild(li);
+      });
+    }
+
+    function renderQuiz() {
+      const quizContainer = document.getElementById("quizContainer");
+      quizContainer.innerHTML = "";
+      preguntas.forEach((p, idx) => {
+        const div = document.createElement("div");
+        div.className = "p-4 bg-white shadow rounded";
+        const opcionesHtml = p.opciones.map(op => `
+          <button class="quiz-btn bg-blue-500 text-white px-3 py-1 rounded mr-2 mb-2" data-correcta="${op === p.correcta}">
+            ${op}
+          </button>`).join("");
+        div.innerHTML = `<p class="mb-2 font-semibold">${idx + 1}. ${p.enunciado}</p>${opcionesHtml}<p class="resultado mt-2 font-bold"></p>`;
+        quizContainer.appendChild(div);
+      });
+
+      quizContainer.addEventListener("click", e => {
+        if (e.target.classList.contains("quiz-btn")) {
+          const correcta = e.target.dataset.correcta === "true";
+          const resultado = e.target.parentElement.querySelector(".resultado");
+          resultado.textContent = correcta ? "✅ Correcto" : "❌ Incorrecto";
+          resultado.className = correcta ? "resultado text-green-600 font-bold mt-2" : "resultado text-red-600 font-bold mt-2";
         }
       });
+    }
+
+    function applyFiltro(valor) {
+      const filtrados = items.filter(i => i.tipo.toLowerCase().includes(valor.toLowerCase()) || i.uso.toLowerCase().includes(valor.toLowerCase()));
+      renderTarjetas(filtrados);
+    }
+
+    // Inicialización al cargar
+    window.addEventListener("DOMContentLoaded", () => {
+      renderTarjetas(items);
+      renderTabla();
+      renderGlosario();
+      renderQuiz();
+
+      const filtroInput = document.getElementById("filtroInput");
+      filtroInput.addEventListener("input", () => applyFiltro(filtroInput.value));
     });
   </script>
+
 </body>
 </html>
